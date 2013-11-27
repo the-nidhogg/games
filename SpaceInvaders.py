@@ -5,6 +5,8 @@ from pygame.locals import *
 from pygame.font import *
 from time import sleep,time
 from random import randrange
+# not finished, the 'Special' class is not used
+# pas fini: la classe 'Special n'est pas utilisée.
 init()
 RESOLUTION=(600,450)
 fenetre=display.set_mode(RESOLUTION)
