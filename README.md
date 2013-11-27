@@ -2,4 +2,4 @@ games
 =====
 
 finished games:
-  Most of the games (almost all of them) work with pygame.
+  Most of the games (almost all of them) will work with pygame.
