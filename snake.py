@@ -24,8 +24,8 @@ class Snake(object):
 		self.tete[0] += self.vitesse * self.sens[0]
 		self.tete[1] += self.vitesse * self.sens[1]
 		if self.tete[0] < 0 or self.tete[0] >= 600 or \
-		self.tete[1] < 0 or self.tete[1] >= 400 or self.tete in self.corps:
-			return 0
+			self.tete[1] < 0 or self.tete[1] >= 400 or self.tete in self.corps:
+				return 0
 		return 1
 
 	def add(self):
@@ -38,7 +38,7 @@ def afficher(food):
 		snake.taille).fill((255, 255, 255))
 	for i in snake.corps:
 		fen.subsurface(i[0], i[1], snake.taille,
-		snake.taille).fill((255, 255, 255))
+			snake.taille).fill((255, 255, 255))
 	fen.subsurface(food[0], food[1], snake.taille, 
 	snake.taille).fill((255, 255, 255))
 	display.flip()
