@@ -1,7 +1,6 @@
-
-                                  				       SNAKE
-                                  				        IN
-                                  				   C AND PYTHON
+                        			 SNAKE
+                                  		  IN
+                                  	    C AND PYTHON
                                   				   
 	This game is juste a test to see how to make programs mixing python and C.
 But it doesn't make it go faster... 
