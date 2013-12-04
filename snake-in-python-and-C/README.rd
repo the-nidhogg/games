@@ -1,5 +1,5 @@
-                        		     SNAKE
-                                  	      IN
+                        		   SNAKE
+                                  	     IN
                                   	C AND PYTHON
                                   				   
 	This game is juste a test to see how to make programs mixing python and C.
