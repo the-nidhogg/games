@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# game not finished: the 'special' class isn't used
+# game not finished: the 'special' class isn't used 
 # jeu non fini: la classe 'special' n'est pas utilisee
 from pygame import *
 from pygame.locals import *
