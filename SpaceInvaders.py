@@ -53,6 +53,10 @@ class Invaders(object):
 	form22="".join([x+x[::-1]for x in["nnbnnn","bnnbnn","bnbbbb","bbbnbb","bbbbbb","nbbbbb","nnbnnn","nbnnnn"]])
 	form13="".join([x+x[::-1]for x in["nnbnnn","nnnbnn","nnbbbb","nbbnbb","bbbbbb","bnbbbb","bnbnnn","nnnbbn"]])
 	form23="".join([x+x[::-1]for x in["nnbnnn","bnnbnn","bnbbbb","bbbnbb","bbbbbb","nbbbbb","nnbnnn","nbnnnn"]])
+	balls_form=0
+	balls_shape=["nb","nb","bn","bn","nb","nb"]
+	balls_shape+=[x[::-1]for x in balls_shape]
+	balls_shape="".join(balls_shape)
 	
 	def __init__(self,pos,number):
 		self.number=number
@@ -105,8 +109,8 @@ class Invaders(object):
 			if forme[i]=="n":continue
 			elif forme[i]=="b":color=(255,255,255)
 			fenetre.subsurface(j[0],j[1],2,2).fill(color)
-		
-	
+
+
 class Special(object):
 	formExplosion="".join(x+x[::-1] for x in["nnnnnnnnbbnnn","nnnnnnnnbbbnn","nnbbnnnnnbbbn","nnbbbnnnnnbbn","nnnbbbnnnnnnn","nnnnbbbnnnnnn","nnnnnbbbnnnnn","nnnnnnbbnnnnn","bbbbnnnnnnnnn"])
 	formExplosion=formExplosion+formExplosion[::-1]
@@ -170,7 +174,7 @@ destructBall=[]
 largeurBlocs=50
 hauteurBlocs=20
 blocs=[[[y+50,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+200,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+350,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+500,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)]]
-
+chform_ball=time()
 def pause(fenetre,texte=["PAUSE"]):
 	if texte!=["PAUSE"]:fenetre.fill(0)
 	a=0
@@ -197,6 +201,7 @@ while 1:
 	elif niveaux[level][1]==3:ennemi=[]+[Invaders([x[0],x[1]],3)for x in niveaux[level][0]]
 	perdu=0
 	gagne=0
+	Special.lastApear=time()
 
 	while not perdu and not gagne:
 		#sleep(0.006125)
@@ -204,7 +209,11 @@ while 1:
 		if time()-chform>=0.5:
 			Invaders.form=bool(not Invaders.form)
 			chform=time()
-
+		if time()-chform_ball>=0.125:
+			chform_ball=time()
+			if Invaders.balls_form:Invaders.balls_form=0
+			else:Invaders.balls_form=12
+			
 		chsens=0
 		fenetre.fill(0)
 		delExplo=[]
@@ -221,7 +230,7 @@ while 1:
 		fenetre.blit(font.Font(None,20).render("Level: ",1,(255,255,255)),(300,420))
 		fenetre.blit(font.Font(None,20).render(str(Vaisseau.levels),1,(255,255,255)),(360,420))
 		fenetre.blit(font.Font(None,20).render("Vitesse de descente: ",1,(255,255,255)),(400,420))
-		fenetre.blit(font.Font(None,20).render(str(5+min(Vaisseau.levels,10))+" pxl",1,(255,255,255)),(550,420))
+		fenetre.blit(font.Font(None,20).render(str(5+min(Vaisseau.levels/3,10))+" pxl",1,(255,255,255)),(550,420))
 		for i in xrange(3):
 			if i<Vaisseau.vies:color=(0,255,0)
 			else:color=(255,0,0)
@@ -235,9 +244,11 @@ while 1:
 				perdu=1
 				break
 			i.tirer()
-
+			
 		for i in Invaders.balls:
-			fenetre.subsurface(i[0],i[1],2,5).fill((255,255,255))
+			for j,k in enumerate([[i[0]+x,i[1]+y]for y in range(6)for x in range(2)]):
+				if Invaders.balls_shape[j+Invaders.balls_form]=="n":continue
+				else:fenetre.subsurface(k[0],k[1],1,1).fill((255,255,255))
 
 		if len(spe):
 			spe[0].afficher(fenetre)
@@ -309,7 +320,9 @@ while 1:
 					if collision(i,j.pos,[j.pos[0]+j.largeur,j.pos[1]+j.hauteur])or collision([i[0]+2,i[1]+5],j.pos,[j.pos[0]+j.largeur,j.pos[1]+j.hauteur]):
 						destruct.append([j,i])
 						explo.append(Special(j.pos))
-						Vaisseau.score+=j.score
+						if Vaisseau.vies<3 and randrange(2):Vaisseau.vies+=1
+						else:Vaisseau.score+=j.score
+							
 						break
 				if len(spe):
 					if collision(i,spe[0].pos,[spe[0].pos[0]+spe[0].largeur,spe[0].pos[1]+spe[0].hauteur])or collision([i[0]+2,i[1]+5],spe[0].pos,[spe[0].pos[0]+spe[0].largeur,spe[0].pos[1]+spe[0].hauteur]):
@@ -322,7 +335,7 @@ while 1:
 				vaisseau.balls.remove(i[1])
 			destruct=[]
 
-		if not len(spe) and not randrange(500) and time()-Special.lastApear>=30:
+		if not len(spe) and not randrange(2500) and time()-Special.lastApear>=30:
 			Special.lastApear=time()
 			a=randrange(2)
 			if a:b=-1
