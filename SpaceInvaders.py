@@ -40,101 +40,73 @@ class Vaisseau(object):
 			fenetre.subsurface(i[0],i[1],2,5).fill((255,0,0))
 
 
-class Invader1(object):
-	form1="".join([x+x[::-1]for x in["nnnb","nnbb","nbbb","bbnb","bbbb","nbnb","bnnn","nbnn"]])
-	form2="".join([x+x[::-1]for x in["nnnb","nnbb","nbbb","bbnb","bbbb","nnbn","nbnb","bnbn"]])
+class Invaders(object):
 	form=1
 	sens=1
 	vitesse=2
 	balls=[]
-	tirMax=7
-	def __init__(self,pos):
+	subsurfaces1={}
+	subsurfaces2={}
+	form11="".join([x+x[::-1]for x in["nnnb","nnbb","nbbb","bbnb","bbbb","nbnb","bnnn","nbnn"]])
+	form21="".join([x+x[::-1]for x in["nnnb","nnbb","nbbb","bbnb","bbbb","nnbn","nbnb","bnbn"]])
+	form12="".join([x+x[::-1]for x in["nnbnnn","nnnbnn","nnbbbb","nbbnbb","bbbbbb","bnbbbb","bnbnnn","nnnbbn"]])
+	form22="".join([x+x[::-1]for x in["nnbnnn","bnnbnn","bnbbbb","bbbnbb","bbbbbb","nbbbbb","nnbnnn","nbnnnn"]])
+	form13="".join([x+x[::-1]for x in["nnbnnn","nnnbnn","nnbbbb","nbbnbb","bbbbbb","bnbbbb","bnbnnn","nnnbbn"]])
+	form23="".join([x+x[::-1]for x in["nnbnnn","bnnbnn","bnbbbb","bbbnbb","bbbbbb","nbbbbb","nnbnnn","nbnnnn"]])
+	
+	def __init__(self,pos,number):
+		self.number=number
 		self.pos=pos
-		self.largeur=16
 		self.hauteur=16
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,16,2)]
-
-	def afficher(self,fenetre):
-		if Invader1.form==1:forme=Invader1.form1
-		else:forme=Invader1.form2
-		for i,j in enumerate(self.subsurfaces):
-			if forme[i]=="n":continue
-			elif forme[i]=="b":color=(255,255,255)
-			try:fenetre.subsurface(j[0],j[1],2,2).fill(color)
-			except: print j
-
+		if number!=1:
+			self.largeur=24
+			self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
+		else:
+			self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,16,2)]
+			self.tire_max=7
+			self.score=10
+			self.largeur=16
+		if number==2:
+			self.tire_max=10
+			self.score=20
+		elif number==3:
+			self.tire_max=15
+			self.score=50
+			
+	def tirer(self):
+		if len(Invaders.balls)<=self.tire_max+Vaisseau.levels and not randrange(500):
+			Invaders.balls.append([self.pos[0]+self.largeur/2.0,self.pos[1]])
+			
 	def deplacement(self):
-		self.pos[0]+=Invader1.sens*Invader1.vitesse
-		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,16,2)]
+		self.pos[0]+=Invaders.sens*Invaders.vitesse
+		if self.number!=1:
+			if str(self.pos[0]*1000)+str(self.pos[1]) in Invaders.subsurfaces2:
+				self.subsurfaces=[]+Invaders.subsurfaces2[str(self.pos[0]*1000)+str(self.pos[1])]
+			else:
+				self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
+				Invaders.subsurfaces2[str(self.pos[0]*1000)+str(self.pos[1])]=[]+self.subsurfaces
+		else:
+			if str(self.pos[0]*1000)+str(self.pos[1]) in Invaders.subsurfaces1:
+				self.subsurfaces=[]+Invaders.subsurfaces1[str(self.pos[0]*1000)+str(self.pos[1])]
+			else:
+				self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,16,2)]
+				Invaders.subsurfaces1[str(self.pos[0]*1000)+str(self.pos[1])]=[]+self.subsurfaces
 		
-	def tirer(self):
-		if len(Invader1.balls)+len(Invader2.balls)+len(Invader3.balls)<=Invader1.tirMax+Vaisseau.levels and not randrange(500):
-			Invader1.balls.append([self.pos[0]+self.largeur/2.0,self.pos[1]])
-
-
-class Invader2(object):
-	form1="".join([x+x[::-1]for x in["nnbnnn","nnnbnn","nnbbbb","nbbnbb","bbbbbb","bnbbbb","bnbnnn","nnnbbn"]])
-	form2="".join([x+x[::-1]for x in["nnbnnn","bnnbnn","bnbbbb","bbbnbb","bbbbbb","nbbbbb","nnbnnn","nbnnnn"]])
-	form=1
-	sens=1
-	vitesse=2
-	balls=[]
-	tirMax=10
-	def __init__(self,pos):
-		self.pos=pos
-		self.largeur=24
-		self.hauteur=16
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
-
 	def afficher(self,fenetre):
-		if Invader2.form==1:forme=Invader2.form1
-		else:forme=Invader2.form2
-		for i,j in enumerate(self.subsurfaces):
-			if forme[i]=="n":continue
-			elif forme[i]=="b":color=(255,255,255)
-			try:fenetre.subsurface(j[0],j[1],2,2).fill(color)
-			except:print j
-
-	def deplacement(self):
-		self.pos[0]+=Invader2.sens*Invader2.vitesse
-		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
-
-	def tirer(self):
-		if len(Invader1.balls)+len(Invader2.balls)+len(Invader3.balls)<=Invader2.tirMax+Vaisseau.levels and not randrange(500):
-			Invader2.balls.append([self.pos[0]+self.largeur/2.0,self.pos[1]])
-
-
-class Invader3(object):
-	form1="".join([x+x[::-1]for x in["nnnnbb","nbbbbb","bbbbbb","bbbnnb","bbbbbb","nnnbbn","nnbbnb","bbnnnn"]])
-	form2="".join([x+x[::-1]for x in["nnnnbb","nnbbbb","bbbbbb","bbbnnb","bbbbbb","nnbbbn","nbbnnb","nnbbnn"]])
-	form=1
-	sens=1
-	vitesse=2
-	balls=[]
-	tirMax=15
-	def __init__(self,pos):
-		self.pos=pos
-		self.largeur=24
-		self.hauteur=16
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
-
-	def afficher(self,fenetre):
-		if Invader3.form==1:forme=Invader3.form1
-		else:forme=Invader3.form2
+		if Invaders.form==1:
+			if self.number==1:forme=Invaders.form11
+			if self.number==2:forme=Invaders.form12
+			if self.number==3:forme=Invaders.form13
+		else:
+			if self.number==1:forme=Invaders.form21
+			if self.number==2:forme=Invaders.form22
+			if self.number==3:forme=Invaders.form23
 		for i,j in enumerate(self.subsurfaces):
 			if forme[i]=="n":continue
 			elif forme[i]=="b":color=(255,255,255)
 			fenetre.subsurface(j[0],j[1],2,2).fill(color)
-
-	def deplacement(self):
-		self.pos[0]+=Invader3.sens*Invader3.vitesse
-		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
-
-	def tirer(self):
-		if len(Invader1.balls)+len(Invader2.balls)+len(Invader3.balls)<=Invader3.tirMax+Vaisseau.levels and not randrange(500):
-			Invader3.balls.append([self.pos[0]+self.largeur/2.0,self.pos[1]])
-
-
+		
+	
 class Special(object):
 	formExplosion="".join(x+x[::-1] for x in["nnnnnnnnbbnnn","nnnnnnnnbbbnn","nnbbnnnnnbbbn","nnbbbnnnnnbbn","nnnbbbnnnnnnn","nnnnbbbnnnnnn","nnnnnbbbnnnnn","nnnnnnbbnnnnn","bbbbnnnnnnnnn"])
 	formExplosion=formExplosion+formExplosion[::-1]
@@ -183,7 +155,9 @@ class Special(object):
 			self.deplacement()
 
 
-niveaux=(([(x*20+1,y*20+20)for y in xrange(5)for x in xrange(10)],1),([(x*28+1,y*20+20)for y in xrange(5)for x in xrange(10)],2),([(x*32+1,y*20+20)for y in xrange(5)for x in xrange(10)],3))
+niveaux=(([(x*20+1,y*20+20)for y in xrange(5)for x in xrange(10)],1),
+		 ([(x*28+1,y*20+20)for y in xrange(5)for x in xrange(10)],2),
+		 ([(x*32+1,y*20+20)for y in xrange(5)for x in xrange(10)],3))
 level=0
 vaisseau=Vaisseau()
 spe=[]
@@ -218,9 +192,9 @@ def pause(fenetre,texte=["PAUSE"]):
 while 1:
 	pause(fenetre,["APPUYEZ SUR UNE TOUCHE","POUR COMMENCER","level {}".format(Vaisseau.levels)])
 	if level==3:level=0
-	if niveaux[level][1]==1:ennemi=[]+[Invader1([x[0],x[1]])for x in niveaux[level][0]]
-	elif niveaux[level][1]==2:ennemi=[]+[Invader2([x[0],x[1]])for x in niveaux[level][0]]
-	elif niveaux[level][1]==3:ennemi=[]+[Invader3([x[0],x[1]])for x in niveaux[level][0]]
+	if niveaux[level][1]==1:ennemi=[]+[Invaders([x[0],x[1]],1)for x in niveaux[level][0]]
+	elif niveaux[level][1]==2:ennemi=[]+[Invaders([x[0],x[1]],2)for x in niveaux[level][0]]
+	elif niveaux[level][1]==3:ennemi=[]+[Invaders([x[0],x[1]],3)for x in niveaux[level][0]]
 	perdu=0
 	gagne=0
 
@@ -228,9 +202,7 @@ while 1:
 		#sleep(0.006125)
 
 		if time()-chform>=0.5:
-			Invader1.form=bool(not Invader1.form)
-			Invader2.form=bool(not Invader2.form)
-			Invader3.form=bool(not Invader3.form)
+			Invaders.form=bool(not Invaders.form)
 			chform=time()
 
 		chsens=0
@@ -264,25 +236,21 @@ while 1:
 				break
 			i.tirer()
 
-		for i in Invader1.balls+Invader2.balls+Invader3.balls:
+		for i in Invaders.balls:
 			fenetre.subsurface(i[0],i[1],2,5).fill((255,255,255))
 
 		if len(spe):
 			spe[0].afficher(fenetre)
-			if spe[0].pos[0]>RESOLUTION[0]-28 or spe[0].pos[0]<=Special.vitesse :spe=[]
+			if spe[0].pos[0]>RESOLUTION[0]-28 or spe[0].pos[0]<=0 :spe=[]
 		vaisseau.afficher(fenetre)
 		display.flip()
 
 		if chsens:
-			Invader1.sens=-Invader1.sens
-			Invader2.sens=-Invader2.sens
-			Invader3.sens=-Invader3.sens
+			Invaders.sens=-Invaders.sens
 			for i in ennemi:i.pos[1]+=5+min(Vaisseau.levels/3,10)
 
-		
-			
 		destructBall=[]
-		for i in Invader1.balls+Invader2.balls+Invader3.balls:
+		for i in Invaders.balls:
 			i[1]+=vitesseBallEnnemi
 			if collision(i,vaisseau.pos,[vaisseau.pos[0]+vaisseau.largeur,vaisseau.pos[1]+vaisseau.hauteur])or collision([i[0]+2,i[1]+5],vaisseau.pos,[vaisseau.pos[0]+vaisseau.largeur,vaisseau.pos[1]+vaisseau.hauteur]):
 				destructBall.append(i)
@@ -309,15 +277,10 @@ while 1:
 			if i[1]+5>=400:
 				destructBall.append(i)
 				break
-				
+
 		for i in destructBall:
-			try:Invader1.balls.remove(i)
-			except:
-				try:Invader2.balls.remove(i)
-				except:
-					try:Invader3.balls.remove(i)
-					except:pass
-					
+			Invaders.balls.remove(i)
+
 		for threeTimes in xrange(6):
 			for i in vaisseau.balls:
 				a=0
@@ -346,9 +309,7 @@ while 1:
 					if collision(i,j.pos,[j.pos[0]+j.largeur,j.pos[1]+j.hauteur])or collision([i[0]+2,i[1]+5],j.pos,[j.pos[0]+j.largeur,j.pos[1]+j.hauteur]):
 						destruct.append([j,i])
 						explo.append(Special(j.pos))
-						if type(j)==Invader1:Vaisseau.score+=10
-						elif type(j)==Invader2:Vaisseau.score+=20
-						elif type(j)==Invader3:Vaisseau.score+=50
+						Vaisseau.score+=j.score
 						break
 				if len(spe):
 					if collision(i,spe[0].pos,[spe[0].pos[0]+spe[0].largeur,spe[0].pos[1]+spe[0].hauteur])or collision([i[0]+2,i[1]+5],spe[0].pos,[spe[0].pos[0]+spe[0].largeur,spe[0].pos[1]+spe[0].hauteur]):
@@ -361,15 +322,13 @@ while 1:
 				vaisseau.balls.remove(i[1])
 			destruct=[]
 
-
 		if not len(spe) and not randrange(500) and time()-Special.lastApear>=30:
 			Special.lastApear=time()
-			a=1#randrange(2)
+			a=randrange(2)
 			if a:b=-1
 			else:b=1
 			spe.append(Special([a*(RESOLUTION[0]-28),1],1,b))
 		gagne=not len(ennemi)
-
 
 		for i in event.get():
 			if i.type==QUIT:quit;exit()
@@ -398,12 +357,8 @@ while 1:
 		elif clavier[K_LEFT]==1:vaisseau.deplacement(-1)
 		if clavier[K_UP]:vaisseau.tirer()
 
-	Invader1.sens=1
-	Invader2.sens=1
-	Invader3.sens=1
-	Invader1.balls=[]
-	Invader2.balls=[]
-	Invader3.balls=[]
+	Invaders.sens=1
+	Invaders.balls=[]
 	spe=[]
 	explo=[]
 
