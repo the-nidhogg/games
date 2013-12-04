@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from random import choice
-from time import sleep,time
 from pygame import *
 from pygame.locals import *
+from time import sleep,time
+from random import choice
 
 
 class Snake(object):
