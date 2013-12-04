@@ -1,4 +1,4 @@
-                        		      SNAKE
+                        		       SNAKE
                                   	     IN
                                   	C AND PYTHON
                                   				   
