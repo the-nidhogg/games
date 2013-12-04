@@ -13,7 +13,6 @@ fenetre=display.set_mode((600,400))
 sens=-1
 moteur.init()
 moteur.initialise()
-print ''
 while 1:
 	sleep(0.06125)
 	if not moteur.deplacement(sens):moteur.init()
@@ -31,12 +30,12 @@ while 1:
 	fenetre.fill(0)
 	for i in event.get():
 		if i.type==KEYDOWN:
-			if i.key==K_UP:
+			if i.key==K_UP and sens!=-2:
 				sens=1
-			elif i.key==K_DOWN:
+			elif i.key==K_DOWN and sens!=1:
 				sens=-2
-			elif i.key==K_RIGHT:
+			elif i.key==K_RIGHT and sens !=-1:
 				sens=2
-			elif i.key==K_LEFT:
+			elif i.key==K_LEFT and sens != 2:
 				sens=-1
 		elif i.type==QUIT:quit();exit()
