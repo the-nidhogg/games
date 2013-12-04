@@ -165,7 +165,8 @@ class Special(object):
 			a,b=0,0
 			for i in Special.formExplosion:
 				if i=="b":
-					fenetre.subsurface(self.pos[0]+a,self.pos[1]+b,1,1).fill((255,255,255))
+					try:fenetre.subsurface(self.pos[0]+a,self.pos[1]+b,1,1).fill((255,255,255))
+					except:pass
 				a+=1
 				if a==self.largeur:
 					b+=1
