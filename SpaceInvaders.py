@@ -5,8 +5,6 @@ from pygame.locals import *
 from pygame.font import *
 from time import sleep,time
 from random import randrange
-# not finished, the 'Special' class is not used
-# pas fini: la classe 'Special n'est pas utilisée.
 init()
 RESOLUTION=(600,450)
 fenetre=display.set_mode(RESOLUTION)
@@ -54,7 +52,7 @@ class Invader1(object):
 		self.pos=pos
 		self.largeur=16
 		self.hauteur=16
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in range(0,16,2)for x in range(0,16,2)]
+		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,16,2)]
 
 	def afficher(self,fenetre):
 		if Invader1.form==1:forme=Invader1.form1
@@ -67,7 +65,7 @@ class Invader1(object):
 
 	def deplacement(self):
 		self.pos[0]+=Invader1.sens*Invader1.vitesse
-		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in range(0,16,2)for x in range(0,16,2)]
+		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,16,2)]
 		
 	def tirer(self):
 		if len(Invader1.balls)+len(Invader2.balls)+len(Invader3.balls)<=Invader1.tirMax+Vaisseau.levels and not randrange(500):
@@ -86,7 +84,7 @@ class Invader2(object):
 		self.pos=pos
 		self.largeur=24
 		self.hauteur=16
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in range(0,16,2)for x in range(0,24,2)]
+		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
 
 	def afficher(self,fenetre):
 		if Invader2.form==1:forme=Invader2.form1
@@ -99,7 +97,7 @@ class Invader2(object):
 
 	def deplacement(self):
 		self.pos[0]+=Invader2.sens*Invader2.vitesse
-		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in range(0,16,2)for x in range(0,24,2)]
+		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
 
 	def tirer(self):
 		if len(Invader1.balls)+len(Invader2.balls)+len(Invader3.balls)<=Invader2.tirMax+Vaisseau.levels and not randrange(500):
@@ -118,7 +116,7 @@ class Invader3(object):
 		self.pos=pos
 		self.largeur=24
 		self.hauteur=16
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in range(0,16,2)for x in range(0,24,2)]
+		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
 
 	def afficher(self,fenetre):
 		if Invader3.form==1:forme=Invader3.form1
@@ -130,7 +128,7 @@ class Invader3(object):
 
 	def deplacement(self):
 		self.pos[0]+=Invader3.sens*Invader3.vitesse
-		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in range(0,16,2)for x in range(0,24,2)]
+		self.subsurfaces=[[self.pos[0]+x,self.pos[1]+y]for y in xrange(0,16,2)for x in xrange(0,24,2)]
 
 	def tirer(self):
 		if len(Invader1.balls)+len(Invader2.balls)+len(Invader3.balls)<=Invader3.tirMax+Vaisseau.levels and not randrange(500):
@@ -150,15 +148,15 @@ class Special(object):
 			self.apparition=time()
 			self.hauteur=18
 			self.largeur=26
-			self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in range(0,18,2)for x in range(0,26,2)]
+			self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,18,2)for x in xrange(0,26,2)]
 		if number==1:
 			self.hauteur=14
 			self.largeur=28
-			self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in range(0,14,2)for x in range(0,28,2)]
+			self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,14,2)for x in xrange(0,28,2)]
 
 	def deplacement(self):
 		self.pos[0]+=Special.vitesse
-		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in range(0,14,2)for x in range(0,28,2)]
+		self.subsurfaces=[[pos[0]+x,pos[1]+y]for y in xrange(0,14,2)for x in xrange(0,28,2)]
 
 	def afficher(self,fenetre):
 		if self.number==0:
@@ -179,26 +177,28 @@ class Special(object):
 					a=0
 
 
-niveaux=(([(x*20+1,y*20+20)for y in range(5)for x in range(10)],1),([(x*28+1,y*20+20)for y in range(5)for x in range(10)],2),([(x*32+1,y*20+20)for y in range(5)for x in range(10)],3))
+niveaux=(([(x*20+1,y*20+20)for y in xrange(5)for x in xrange(10)],1),([(x*28+1,y*20+20)for y in xrange(5)for x in xrange(10)],2),([(x*32+1,y*20+20)for y in xrange(5)for x in xrange(10)],3))
 level=0
 vaisseau=Vaisseau()
 spe=[]
 explo=[]
 chform=time()
 destruct=[]
-clavier={x:0 for x in range(400)}
+clavier={x:0 for x in xrange(400)}
 vitesseBallEnnemi=2
 destructBall=[]
 largeurBlocs=50
 hauteurBlocs=20
-blocs=[[[y+50,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)],[[y+200,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)],[[y+350,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)],[[y+500,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)]]
+blocs=[[[y+50,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+200,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+350,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+500,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)]]
 
 def pause(fenetre,texte=["PAUSE"]):
+	if texte!=["PAUSE"]:fenetre.fill(0)
 	a=0
 	for i in texte:
-		fenetre.blit(font.Font(None,36).render(i,1,(255,255,255)),((600-len(i)*15)/2.0,(400-len(texte)*a)/2.0))
+		fenetre.blit(font.Font(None,36).render(i,1,(255,255,255)),((600-len(i)*15)/2.0,(400-len(texte)*36)/2.0+a))
 		a+=36
 	display.flip()
+	sleep(0.5)
 	paused=1
 	while paused:
 		sleep(0.125)
@@ -210,7 +210,7 @@ def pause(fenetre,texte=["PAUSE"]):
 				else:paused=0
 
 while 1:
-	pause(fenetre,["APPUYEZ SUR UNE TOUCHE","POUR COMMENCER"])
+	pause(fenetre,["APPUYEZ SUR UNE TOUCHE","POUR COMMENCER","level {}".format(Vaisseau.levels)])
 	if level==3:level=0
 	if niveaux[level][1]==1:ennemi=[]+[Invader1([x[0],x[1]])for x in niveaux[level][0]]
 	elif niveaux[level][1]==2:ennemi=[]+[Invader2([x[0],x[1]])for x in niveaux[level][0]]
@@ -236,10 +236,10 @@ while 1:
 		fenetre.blit(font.Font(None,20).render("Score: ",1,(255,255,255)),(150,420))
 		fenetre.blit(font.Font(None,20).render(str(Vaisseau.score),1,(255,255,255)),(200,420))
 		fenetre.blit(font.Font(None,20).render("Level: ",1,(255,255,255)),(300,420))
-		fenetre.blit(font.Font(None,20).render(str(level),1,(255,255,255)),(360,420))
+		fenetre.blit(font.Font(None,20).render(str(Vaisseau.levels),1,(255,255,255)),(360,420))
 		fenetre.blit(font.Font(None,20).render("Vitesse de descente: ",1,(255,255,255)),(400,420))
-		fenetre.blit(font.Font(None,20).render(str(5+Vaisseau.levels)+" pxl",1,(255,255,255)),(550,420))
-		for i in range(3):
+		fenetre.blit(font.Font(None,20).render(str(5+min(Vaisseau.levels,10))+" pxl",1,(255,255,255)),(550,420))
+		for i in xrange(3):
 			if i<Vaisseau.vies:color=(0,255,0)
 			else:color=(255,0,0)
 			fenetre.subsurface(40+(vaisseau.largeur+5)*i,425,vaisseau.largeur,vaisseau.hauteur).fill(color)
@@ -264,8 +264,10 @@ while 1:
 			Invader1.sens=-Invader1.sens
 			Invader2.sens=-Invader2.sens
 			Invader3.sens=-Invader3.sens
-			for i in ennemi:i.pos[1]+=5+Vaisseau.levels
+			for i in ennemi:i.pos[1]+=5+min(Vaisseau.levels/3,10)
 
+		
+			
 		destructBall=[]
 		for i in Invader1.balls+Invader2.balls+Invader3.balls:
 			i[1]+=vitesseBallEnnemi
@@ -282,8 +284,8 @@ while 1:
 							a=0
 							destructBall.append(i)
 							blocs[k].remove(j)
-							for x in range(3):
-								for y in range(2):
+							for x in xrange(3):
+								for y in xrange(2):
 									try:
 										blocs[k].remove([j[0]+x+1,j[1]-y])
 										blocs[k].remove([j[0]+x+1,j[1]+y])
@@ -303,7 +305,7 @@ while 1:
 					try:Invader3.balls.remove(i)
 					except:pass
 					
-		for threeTimes in range(3):
+		for threeTimes in xrange(6):
 			for i in vaisseau.balls:
 				a=0
 				for k,l in enumerate([[(50,300),(100,300+hauteurBlocs)],[(200,300),(250,300+hauteurBlocs)],[(350,300),(400,300+hauteurBlocs)],[(500,300),(550,300+hauteurBlocs)]]):
@@ -313,8 +315,8 @@ while 1:
 								a=1
 								destruct.append([None,i])
 								blocs[k].remove(j)
-								for x in range(2):
-									for y in range(2):
+								for x in xrange(2):
+									for y in xrange(2):
 										try:
 											blocs[k].remove([j[0]+x+1,j[1]-y])
 											blocs[k].remove([j[0]+x+1,j[1]+y])
@@ -375,11 +377,12 @@ while 1:
 	Invader1.balls=[]
 	Invader2.balls=[]
 	Invader3.balls=[]
-	Vaisseau.levels+=1
 
 	if gagne:
 		level+=1
 		vaisseau.__init__()
+		clavier={x:0 for x in xrange(400)}
+		Vaisseau.levels+=1
 
 	if perdu:
 		a=0
@@ -391,7 +394,7 @@ while 1:
 			i=i.split("#/§")[:2]
 			if i[0]not in scores:scores[i[0]]=[int(i[1])]
 			else:scores[i[0]].append(int(i[1]))
-		maxi=[0,"personne n'a encore joue"]
+		maxi=[0,"personne"]
 		for i in scores:
 			if max(scores[i])>maxi[0]:maxi=[max(scores[i]),i]
 		print maxi
@@ -401,14 +404,14 @@ while 1:
 			fenetre.fill(0)
 			fenetre.blit(font.Font(None,32).render("VOUS AVEZ PERDU",1,(255,0,0)),(175,135))
 			fenetre.blit(font.Font(None,32).render("Ecrivez votre nom pour enregistrer votre scors",1,(255,0,0)),(60,175))
-			fenetre.blit(font.Font(None,32).render("Score: "+str(Vaisseau.score)+"    nom: "+nom+"".join(["_" for x in range(1)if a]),1,(255,0,0)),(175,200))
+			fenetre.blit(font.Font(None,32).render("Score: "+str(Vaisseau.score)+"    nom: "+nom+"".join(["_" for x in xrange(1)if a]),1,(255,0,0)),(175,200))
 			fenetre.blit(font.Font(None,32).render("Puis appuyez sur entree pour valider",1,(255,0,0)),(100,225))
 			fenetre.blit(font.Font(None,32).render("Sinon, appuyez sur 'echap'",1,(255,0,0)),(133,250))
-			fenetre.blit(font.Font(None,32).render("Meilleur score:{} par {}".format(maxi[0],maxi[1]),1,(255,0,0)),(133,275))
+			fenetre.blit(font.Font(None,32).render("Meilleur score: {}  par:  {}".format(maxi[0],maxi[1]),1,(255,0,0)),(300-len(maxi[1])*26,275))
 			display.flip()
 			for i in event.get():
 				if i.type==KEYDOWN:
-					if str(i.unicode) in [chr(j)for j in range(30,128)]:
+					if str(i.unicode) in [chr(j)for j in xrange(30,128)]:
 						nom+=str(i.unicode)
 					elif i.key==K_RETURN and nom!="":
 						with open("spaceInvaders.py","a")as f:f.write("#/§"+nom+"#/§"+str(Vaisseau.score)+"#/§")
@@ -416,8 +419,8 @@ while 1:
 					elif i.key==K_ESCAPE:
 						fini=1
 					elif i.key==K_BACKSPACE:nom=nom[:-1]
-		clavier={x:0 for x in range(400)}
-		blocs=[[[y+50,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)],[[y+200,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)],[[y+350,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)],[[y+500,z+300]for y in range(largeurBlocs)for z in range(hauteurBlocs)]]
+		clavier={x:0 for x in xrange(400)}
+		blocs=[[[y+50,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+200,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+350,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)],[[y+500,z+300]for y in xrange(largeurBlocs)for z in xrange(hauteurBlocs)]]
 		level=0
 		vaisseau=Vaisseau()
 		Vaisseau.levels=0
@@ -428,3 +431,5 @@ while 1:
 		display.flip()
 		
 #/§None#/§None#/§
+#/§nidhogg#/§15531#/§
+#/§nidhogg#/§20060#/§
