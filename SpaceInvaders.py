@@ -404,6 +404,8 @@ while 1:
 	Invader1.balls=[]
 	Invader2.balls=[]
 	Invader3.balls=[]
+	spe=[]
+	explo=[]
 
 	if gagne:
 		level+=1
