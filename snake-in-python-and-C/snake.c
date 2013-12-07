@@ -22,8 +22,8 @@ void feeding(){
 }
 
 void append(){
-	corps[longeur][0]=396;
-	corps[longeur][1]=596;
+	corps[longeur][0]=400;
+	corps[longeur][1]=600;
 	longeur++;
 }
 
@@ -47,7 +47,7 @@ int get(){
 		appels++;
 		a=tete[0]+tete[1]*1000;}
 	else{
-		a=corps[appels-1][0]*1000+corps[appels-1][1];
+		a=corps[appels-1][0]+corps[appels-1][1]*1000;
 		appels++;
 		if(appels-1>longeur){
 			appels=0;
@@ -66,8 +66,8 @@ int deplacement(int sens){
 	for(i=longeur;i>=0;i--){
 		corps[i][0]=corps[i-1][0];
 		corps[i][1]=corps[i-1][1];}
-	corps[0][0]=tete[1];
-	corps[0][1]=tete[0];
+	corps[0][0]=tete[0];
+	corps[0][1]=tete[1];
 	switch (sens){
 		case 1:{
 			tete[1]-=4;
@@ -85,7 +85,7 @@ int deplacement(int sens){
 		}
 	if (tete[0]>596 | tete[0]<0 | tete[1]>396 | tete[1]<4){notPerdu=0;}
 	for(i=0;i<longeur;i++){
-		if (tete[0]==corps[i][1] && tete[1]==corps[i][0]){
+		if (tete[0]==corps[i][0] && tete[1]==corps[i][1]){
 			notPerdu=0;
 			break;}
 			}
