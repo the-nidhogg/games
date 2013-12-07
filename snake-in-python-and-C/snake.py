@@ -19,9 +19,10 @@ while 1:
 	while 1:
 		a=moteur.get()
 		if a==-1:break
+		if a==0:continue
 		try:
 			a=[int(str(a)[:-3]),int(str(a)[-3:])]
-			fenetre.subsurface(a[1], a[0], 4, 4).fill((255, 255, 255))
+			if a!=[600,400]:fenetre.subsurface(a[1], a[0], 4, 4).fill((255, 255, 255))
 		except:print 'error'
 	posFood=moteur.getFood()
 	posFood=[int(str(posFood)[:-3]),int(str(posFood)[-3:])]
